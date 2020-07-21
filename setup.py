@@ -15,7 +15,7 @@ setup(
     url='http://github.com/slac-lcls/lcls2widgets',
     packages=["lcls2widgets"],
     package_data={},
-    install_requires=['numpy', 'pyzmq', 'pyqtgraph'],
+    install_requires=['numpy', 'pyzmq', 'pyqtgraph', 'asyncqt'],
     classifiers=[
         'Development Status :: 1 - Planning'
         'Environment :: Other Environment',
