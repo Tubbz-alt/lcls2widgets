@@ -20,7 +20,7 @@ def run_worker():
     while True:
         topic = 'view:graph:_auto_Projection.0.Out'
         socket.send_string(topic, zmq.SNDMORE)
-        timestamp = 1
+        timestamp = 1  # currently unused on client side
         socket.send_pyobj(timestamp, zmq.SNDMORE)
         msg = np.random.randn(1024)
         socket.send_pyobj(msg)
@@ -43,7 +43,10 @@ class PlotWindow(QtCore.QObject):
         super().__init__()
         topics = {'Projection.0.Out': '_auto_Projection.0.Out',
                   'Projection.1.Out': '_auto_Projection.1.Out'}
-        terms = {'X': 'Projection.0.Out', 'Y': 'Projection.1.Out'}
+        # Use the same topics for multiple traces in a plot
+        # AsyncFetcher deduplicate and only makes as many sockets as needed
+        terms = {'X': 'Projection.0.Out', 'Y': 'Projection.1.Out',
+                 'X.1': 'Projection.1.Out', 'Y.1': 'Projection.0.Out'}
 
         self.app = QtGui.QApplication([])
         self.loop = QEventLoop(self.app)
@@ -57,7 +60,14 @@ class PlotWindow(QtCore.QObject):
 
         self.win.setCentralWidget(self.widget)
         self.win.show()
-        self.loop.run_forever()
+
+        try:
+            self.loop.run_forever()
+        finally:
+            if not self.task.done():
+                self.task.cancel()
+
+            self.widget.close()
 
 
 if __name__ == "__main__":
