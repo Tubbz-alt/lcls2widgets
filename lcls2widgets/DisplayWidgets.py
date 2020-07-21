@@ -8,8 +8,8 @@ import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui, QtWidgets, QtCore
 from lcls2widgets import LogConfig
-from WidgetGroup import generateUi
-from Editors import TraceEditor, HistEditor, LineEditor, CircleEditor, RectEditor
+from lcls2widgets.WidgetGroup import generateUi
+from lcls2widgets.Editors import TraceEditor, HistEditor, LineEditor, CircleEditor, RectEditor
 
 logger = logging.getLogger(LogConfig.get_package_name(__name__))
 

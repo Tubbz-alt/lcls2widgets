@@ -1,7 +1,7 @@
 import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui, QtWidgets, QtCore
-from WidgetGroup import generateUi
+from lcls2widgets.WidgetGroup import generateUi
 
 
 line_styles = {'None': QtCore.Qt.PenStyle.NoPen,
